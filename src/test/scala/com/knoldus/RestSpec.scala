@@ -3,12 +3,23 @@ package com.knoldus
 import akka.http.scaladsl.model.{HttpEntity, HttpMethods, HttpRequest, MediaTypes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.util.ByteString
+import com.knoldus.database.mysql.UserImpl
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 
 /**
  * Created by manjot on 7/6/18.
  */
-class RestSpec extends WordSpec with Matchers with ScalatestRouteTest with RestService {
+class RestSpec extends WordSpec with Matchers with ScalatestRouteTest with MockitoSugar {
+
+  val mockUserImpl = mock[UserImpl]
+
+
+  object TestObject extends RestService {
+val userImpl = mockUserImpl
+  }
+
+
   "The service" should {
 
     "return a user name for GET requests /read" in {

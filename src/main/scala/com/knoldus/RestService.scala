@@ -18,7 +18,7 @@ trait RestService {
   //implicit val materializer = ActorMaterializer()
   implicit val userFormat = jsonFormat2(User)
   implicit val numberFormat = jsonFormat1(Number)
-  val userImpl = new UserImpl
+  val userImpl: UserImpl
 
   val route =
     path("read") {
@@ -61,4 +61,8 @@ trait RestService {
 
 
 
+}
+
+class RestServiceImpl extends RestService {
+  val userImpl = UserImpl
 }
