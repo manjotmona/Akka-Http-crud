@@ -6,7 +6,7 @@ import akka.util.ByteString
 import org.scalatest.{Matchers, WordSpec}
 
 /**
- * Created by pallavi on 7/6/18.
+ * Created by manjot on 7/6/18.
  */
 class RestSpec extends WordSpec with Matchers with ScalatestRouteTest with RestService {
   "The service" should {

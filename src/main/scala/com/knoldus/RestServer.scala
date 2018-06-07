@@ -1,16 +1,25 @@
 package com.knoldus
 
+import scala.io.StdIn
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 
 /**
- * Created by pallavi on 7/6/18.
+ * Created by manjot on 7/6/18.
  */
 class RestServer(implicit val system:ActorSystem,
     implicit  val materializer:ActorMaterializer) extends RestService {
   def startServer(address:String, port:Int) = {
-    Http().bindAndHandle(route,address,port)
+    implicit val executionContext = system.dispatcher
+    val bindingFuture = Http().bindAndHandle(route,address,port)
+    println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
+    StdIn.readLine() // let it run until user presses return
+
+    bindingFuture
+      .flatMap(_.unbind()) // trigger unbinding from the port
+      .onComplete(_ => system.terminate()) // and shutdown when done
   }
 
 }
