@@ -9,3 +9,4 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.24"
 libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.5"
 libraryDependencies += "com.typesafe.akka" %% "akka-http-testkit" % "10.1.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % Test
+libraryDependencies += "org.mockito" % "mockito-all" % "1.9.5" % Test

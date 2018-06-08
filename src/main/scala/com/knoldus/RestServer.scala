@@ -10,7 +10,7 @@ import akka.stream.ActorMaterializer
  * Created by manjot on 7/6/18.
  */
 class RestServer(implicit val system:ActorSystem,
-    implicit  val materializer:ActorMaterializer) extends RestService {
+    implicit  val materializer:ActorMaterializer) extends RestServiceImpl {
   def startServer(address:String, port:Int) = {
     implicit val executionContext = system.dispatcher
     val bindingFuture = Http().bindAndHandle(route,address,port)

@@ -9,7 +9,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
  * Created by manjot on 7/6/18.
  */
-class UserImpl {
+
+object UserImpl extends UserImpl
+
+trait UserImpl {
   def returnMysqlData: String = {
     var demo: String = "Demo"
     try {
@@ -30,6 +33,8 @@ class UserImpl {
     connection.close
     demo
   }
+
+
 
   def addUser(user: User) : Future[Done]  = {
     try {

@@ -6,6 +6,9 @@ import akka.Done
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
+import akka.util.Timeout
+import scala.concurrent.duration._
+
 import com.knoldus.database.mysql.{Number, User, UserImpl}
 import spray.json.DefaultJsonProtocol.{jsonFormat1, jsonFormat2, _}
 
@@ -18,7 +21,8 @@ trait RestService {
   //implicit val materializer = ActorMaterializer()
   implicit val userFormat = jsonFormat2(User)
   implicit val numberFormat = jsonFormat1(Number)
-  val userImpl = new UserImpl
+  implicit val duration: Timeout = 500 seconds
+  val userImpl: UserImpl
 
   val route =
     path("read") {
@@ -30,7 +34,7 @@ trait RestService {
       path("adduser") {
         entity(as[User]) { user =>
           val saved: Future[Done] = userImpl.addUser(user)
-          onComplete(saved) { done =>
+          onComplete(saved) { _ =>
             complete("user added")
           }
         }
@@ -40,7 +44,7 @@ trait RestService {
       path("updateuser") {
         entity(as[User]) { user =>
           val saved: Future[Done] = userImpl.updateUser(user)
-          onComplete(saved) { done =>
+          onComplete(saved) { _ =>
             println("user Updated ---> req completed")
             complete("user updated")
           }
@@ -59,6 +63,8 @@ trait RestService {
       }
     }
 
+}
 
-
+class RestServiceImpl extends RestService {
+  val userImpl = UserImpl
 }
